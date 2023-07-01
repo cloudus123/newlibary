@@ -1,3 +1,5 @@
+import org.jenkinsci.plugins.docker.workflow.*
+import org.jenkinsci.plugins.workflow.cps.CpsScript
 def image_build_and_run(String imageName, String containerName, String dockerfilePath, String contextPath, String port = '', String containerPort = '') {
     stage("Build Docker Image") {
 		steps {
