@@ -21,16 +21,14 @@ class Builder {
         this.docker = docker
         this.image = image
     }
-def image_build_and_run(String imageName, String containerName, String dockerfilePath, String contextPath, String port = '', String containerPort = '') {
-    stage("Build Docker Image") {
-		steps {
-        sh "sudo docker build -t ${imageName} -f ${dockerfilePath} ${contextPath}"
-		}
-    }
-    stage("Run container image") {
-		steps {
-        def publishOption = port ? "-p ${port}:${containerPort}" : ""
-        sh "sudo docker run -d ${publishOption} --name ${containerName} ${imageName}"
-		}
+
+    def buildAndRun(String imageName, String containerName, String dockerfilePath, String contextPath, String port = '', String containerPort = '') {
+        script.stage("Build Docker Image") {
+            script.sh "docker build -t ${imageName} -f ${dockerfilePath} ${contextPath}"
+        }
+        script.stage("Run container image") {
+            def publishOption = port ? "-p ${port}:${containerPort}" : ""
+            script.sh "docker run -d ${publishOption} --name ${containerName} ${imageName}"
+        }
     }
 }
